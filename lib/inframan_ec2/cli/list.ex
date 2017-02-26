@@ -3,7 +3,9 @@ defmodule InframanEc2.Cli.List do
   alias TableRex.Table
 
   def execute(_) do
-    Instance.list
+    instances = Instance.list
+
+    instances
     |> Enum.sort_by(fn(instance) -> instance.name end)
     |> render_table
   end

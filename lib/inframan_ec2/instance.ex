@@ -11,9 +11,9 @@ defmodule InframanEc2.Instance do
     reservations = response["Reservations"]
     instances    = reservations |> Enum.flat_map(fn(r) -> r["Instances"] end)
 
-    instances|> Enum.map(fn(instance) ->
+    instances |> Enum.map(fn(instance) ->
       %InframanEc2.Instance{
-        name: Enum.find(instance["Tags"], fn(tag) -> tag["Key"] == "Name" end)["Value"],
+        name: Enum.find(instance["Tags"] || [], fn(tag) -> tag["Key"] == "Name" end)["Value"] || "[NO NAME]",
         id: instance["InstanceId"],
         type: instance["InstanceType"],
         state: instance["State"]["Name"],
